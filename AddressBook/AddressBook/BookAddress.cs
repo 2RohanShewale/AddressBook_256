@@ -1,33 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using static System.Console;
+using System;
 namespace AddressBook
 {
     internal class BookAddress
     {
         public void CreateContact()
         {
+            String _FirstName, _LastName, _Address, _City, _State, _PhoneNumber, _Zip, _Email;
+            WriteLine("Create Contact");
+            Write("First Name: ");_FirstName = ReadLine();
+            Write("Last Name: "); _LastName = ReadLine();
+            Write("Address: "); _Address = ReadLine();
+            Write("City: "); _City = ReadLine();
+            Write("State: ");_State= ReadLine();
+            Write("Zip: "); _Zip = ReadLine();
+            Write("Phone Number: "); _PhoneNumber= ReadLine();
+            Write("Email: ");_Email = ReadLine();
+
             ContactPerson contact = new ContactPerson()
             {
-                FirstName = "Rohan",
-                LastName = "Shewale",
-                Address = "L/12",
-                City = "Mumbai",
-                State = "Mh",
-                PhoneNumber = "98696346",
-                Zip = "34545",
-                Email = "Rohan@.com"
+                FirstName = _FirstName,
+                LastName = _LastName,
+                Address = _Address,
+                City = _City,
+                State = _State,
+                PhoneNumber = _PhoneNumber,
+                Zip = _Zip,
+                Email = _Email
             };
             Display(contact);
         }
         public void Display(ContactPerson contact)
         {
-            Console.WriteLine($"Name: {contact.FirstName} {contact.LastName}");
-            Console.WriteLine($"Address: {contact.Address} {contact.City} {contact.State} {contact.Zip}");
-            Console.WriteLine($"Phone: {contact.PhoneNumber}, Email: {contact.Email}");
+            WriteLine("\nDisplay Contact");
+            WriteLine($"Name: {contact.FirstName} {contact.LastName}");
+            WriteLine($"Address: {contact.Address} {contact.City} {contact.State} {contact.Zip}");
+            WriteLine($"Phone: {contact.PhoneNumber}, Email: {contact.Email}");
         }
     }
 }
