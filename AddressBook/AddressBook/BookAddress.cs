@@ -1,9 +1,12 @@
 ﻿using static System.Console;
 using System;
+using System.Collections.Generic;
+
 namespace AddressBook
 {
     internal class BookAddress
     {
+        List<ContactPerson> contacts = new List<ContactPerson>();
         public void CreateContact()
         {
             String _FirstName, _LastName, _Address, _City, _State, _PhoneNumber, _Zip, _Email;
@@ -28,14 +31,26 @@ namespace AddressBook
                 Zip = _Zip,
                 Email = _Email
             };
-            Display(contact);
+            contacts.Add(contact);
         }
-        public void Display(ContactPerson contact)
+        public void Display()
         {
-            WriteLine("\nDisplay Contact");
-            WriteLine($"Name: {contact.FirstName} {contact.LastName}");
-            WriteLine($"Address: {contact.Address} {contact.City} {contact.State} {contact.Zip}");
-            WriteLine($"Phone: {contact.PhoneNumber}, Email: {contact.Email}");
+            foreach(var contact in contacts)
+                contact.Display();
+        }
+        public void EditContact()
+        {
+            WriteLine("\nEdit Contact");
+            WriteLine("Enter First Name: "); string FirstName = ReadLine();
+            WriteLine("Enter Last Name: "); string LastName = ReadLine();
+            foreach (var contact in contacts)
+            {
+                if (FirstName == contact.FirstName && LastName == contact.LastName)
+                {
+                    contact.Edit();
+                }
+            }
+            Display();
         }
     }
 }
