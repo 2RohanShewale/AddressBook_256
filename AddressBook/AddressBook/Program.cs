@@ -27,7 +27,7 @@ namespace AddressBook
                         else { Console.WriteLine("There are no contacts to edit"); }
                         break;
                     case 4:
-                        if (book.contacts != null) { book.EditContact(); }
+                        if (book.contacts != null) { book.DeleteContact(); }
                         else { Console.WriteLine("There are no contacts to delete."); }
                         break;
                     default:

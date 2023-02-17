@@ -6,7 +6,7 @@ namespace AddressBook
 {
     internal class BookAddress
     {
-        List<ContactPerson> contacts = new List<ContactPerson>();
+        public List<ContactPerson> contacts = new List<ContactPerson>();//multiple Contacts
         public void CreateContact()
         {
             String _FirstName, _LastName, _Address, _City, _State, _PhoneNumber, _Zip, _Email;
