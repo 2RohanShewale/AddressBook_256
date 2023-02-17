@@ -1,6 +1,6 @@
-﻿using static System.Console;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using static System.Console;
 
 namespace AddressBook
 {
@@ -11,31 +11,39 @@ namespace AddressBook
         {
             String _FirstName, _LastName, _Address, _City, _State, _PhoneNumber, _Zip, _Email;
             WriteLine("Create Contact");
-            Write("First Name: ");_FirstName = ReadLine();
+            Write("First Name: "); _FirstName = ReadLine();
             Write("Last Name: "); _LastName = ReadLine();
             Write("Address: "); _Address = ReadLine();
             Write("City: "); _City = ReadLine();
-            Write("State: ");_State= ReadLine();
+            Write("State: "); _State = ReadLine();
             Write("Zip: "); _Zip = ReadLine();
-            Write("Phone Number: "); _PhoneNumber= ReadLine();
-            Write("Email: ");_Email = ReadLine();
+            Write("Phone Number: "); _PhoneNumber = ReadLine();
+            Write("Email: "); _Email = ReadLine();
 
-            ContactPerson contact = new ContactPerson()
+            if (!doesExists(_FirstName,_LastName))
             {
-                FirstName = _FirstName,
-                LastName = _LastName,
-                Address = _Address,
-                City = _City,
-                State = _State,
-                PhoneNumber = _PhoneNumber,
-                Zip = _Zip,
-                Email = _Email
-            };
-            contacts.Add(contact);
+                ContactPerson contact = new ContactPerson()
+                {
+                    FirstName = _FirstName,
+                    LastName = _LastName,
+                    Address = _Address,
+                    City = _City,
+                    State = _State,
+                    PhoneNumber = _PhoneNumber,
+                    Zip = _Zip,
+                    Email = _Email
+                };
+                contacts.Add(contact);
+            }
+            else
+            {
+                Console.WriteLine("Similar Contact Already Exists");
+            }
+
         }
         public void Display()
         {
-            foreach(var contact in contacts)
+            foreach (var contact in contacts)
                 contact.Display();
         }
         public void EditContact()
@@ -65,6 +73,21 @@ namespace AddressBook
                 }
             }
             Display();
+        }
+        public bool doesExists(string _FirstName, string _LastName)
+        {
+            if (contacts != null)
+            {
+                foreach (var contact in contacts)
+                {
+                    if (contact.FirstName == _FirstName && contact.LastName == _LastName)
+                    {
+                        WriteLine("Exists");
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
