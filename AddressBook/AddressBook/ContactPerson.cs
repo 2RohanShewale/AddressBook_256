@@ -1,6 +1,5 @@
-﻿using static System.Console;
-using System;
-using System.Reflection.Emit;
+﻿using System;
+using static System.Console;
 
 namespace AddressBook
 {
@@ -17,14 +16,15 @@ namespace AddressBook
 
         public void Display()
         {
-            
+            ForegroundColor= ConsoleColor.Blue;
             WriteLine($"\nName: {FirstName} {LastName}");
+            ResetColor();
             WriteLine($"Address: {Address} {City} {State} {Zip}");
             WriteLine($"Phone: {PhoneNumber}, Email: {Email}");
         }
         public void Edit()
         {
-            WriteLine("Current Contact info");
+            WriteLine("\nCurrent Contact info");
             Display();
             Console.WriteLine("Select What to change: ");
             WriteLine("1.First Name 2.Last Name 3.Address 4.City 5.State \n6.Country 7.Zip Code 8.Phone Number 9.Email 10.Cancel\nEnter number : ");

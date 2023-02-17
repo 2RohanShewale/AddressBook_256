@@ -1,27 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using static System.Console;
+using static AddressBook.GeneratingContacts;
 
 namespace AddressBook
 {
     internal class BookAddress
     {
+        public string name;
         public List<ContactPerson> contacts = new List<ContactPerson>();//multiple Contacts
         public void CreateContact()
         {
             String _FirstName, _LastName, _Address, _City, _State, _PhoneNumber, _Zip, _Email;
-            WriteLine("Create Contact");
+            WriteLine("\nCreate Contact");
             Write("First Name: "); _FirstName = ReadLine();
             Write("Last Name: "); _LastName = ReadLine();
-            Write("Address: "); _Address = ReadLine();
-            Write("City: "); _City = ReadLine();
-            Write("State: "); _State = ReadLine();
-            Write("Zip: "); _Zip = ReadLine();
-            Write("Phone Number: "); _PhoneNumber = ReadLine();
-            Write("Email: "); _Email = ReadLine();
-
-            if (!doesExists(_FirstName,_LastName))
+            if (!doesExists(_FirstName, _LastName))
             {
+                Write("Address: "); _Address = ReadLine();
+                Write("City: "); _City = ReadLine();
+                Write("State: "); _State = ReadLine();
+                Write("Zip: "); _Zip = ReadLine();
+                Write("Phone Number: "); _PhoneNumber = ReadLine();
+                Write("Email: "); _Email = ReadLine();
+
                 ContactPerson contact = new ContactPerson()
                 {
                     FirstName = _FirstName,
@@ -37,7 +39,7 @@ namespace AddressBook
             }
             else
             {
-                Console.WriteLine("Similar Contact Already Exists");
+                Console.WriteLine("\nContact under same name already exists");
             }
 
         }
@@ -70,9 +72,39 @@ namespace AddressBook
                 if (FirstName == contact.FirstName && LastName == contact.LastName)
                 {
                     contacts.Remove(contact);
+                    break;
                 }
             }
             Display();
+        }
+        public void GeneratingRandomContacts()
+        {
+            WriteLine("\nGeneration Random Contacts");
+            Write("How many Contacts to generate: "); int number = Convert.ToInt32(ReadLine());
+            for(int i= 0; i < number;)
+            {
+                Random random = new Random();
+                string _FirstName = firstNames[random.Next(firstNames.Length)];
+                string _LastName = lastNames[random.Next(lastNames.Length)];
+                if (!doesExists(_FirstName, _LastName))
+                {
+                    string _state = GetState();
+                    ContactPerson contact = new ContactPerson()
+                    {
+                        FirstName = _FirstName,
+                        LastName = _LastName,
+                        Address = "Some Location",
+                        State = _state,
+                        City = GetCity(_state),
+                        Zip = ZipCode(),
+                        PhoneNumber = PhoneNubmer(),
+                        Email = $"{_FirstName.ToLower()}@gmail.com"
+                    };
+                    contacts.Add(contact);
+                    i++;
+                }
+
+            }
         }
         public bool doesExists(string _FirstName, string _LastName)
         {
@@ -82,7 +114,6 @@ namespace AddressBook
                 {
                     if (contact.FirstName == _FirstName && contact.LastName == _LastName)
                     {
-                        WriteLine("Exists");
                         return true;
                     }
                 }
