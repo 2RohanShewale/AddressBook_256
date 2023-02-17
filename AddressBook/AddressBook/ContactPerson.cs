@@ -17,8 +17,8 @@ namespace AddressBook
 
         public void Display()
         {
-            WriteLine("\nDisplay Contact");
-            WriteLine($"Name: {FirstName} {LastName}");
+            
+            WriteLine($"\nName: {FirstName} {LastName}");
             WriteLine($"Address: {Address} {City} {State} {Zip}");
             WriteLine($"Phone: {PhoneNumber}, Email: {Email}");
         }
@@ -26,10 +26,10 @@ namespace AddressBook
         {
             WriteLine("Current Contact info");
             Display();
-            WriteLine("1.First Name 2.Last Name 3.Address 4.City 5.State \n6.Country 7.Zip Code 8.Phone Number 9.Email 10.Cancel\n Enter number : ");
+            Console.WriteLine("Select What to change: ");
+            WriteLine("1.First Name 2.Last Name 3.Address 4.City 5.State \n6.Country 7.Zip Code 8.Phone Number 9.Email 10.Cancel\nEnter number : ");
             int num = Convert.ToInt32(ReadLine());
 
-            ForegroundColor = ConsoleColor.Green;
             switch (num)
             {
                 case 1: Write("First Name: "); FirstName = ReadLine(); break;
@@ -44,9 +44,6 @@ namespace AddressBook
                 default:
                     break;
             }
-            ResetColor();
-
-            Display();
 
         }
 

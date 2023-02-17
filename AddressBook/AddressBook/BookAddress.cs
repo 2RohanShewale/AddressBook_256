@@ -52,5 +52,19 @@ namespace AddressBook
             }
             Display();
         }
+        public void DeleteContact()
+        {
+            WriteLine("\nDelete Contact");
+            Write("Enter First Name: "); string FirstName = ReadLine();
+            Write("Enter Last Name: "); string LastName = ReadLine();
+            foreach (var contact in contacts)
+            {
+                if (FirstName == contact.FirstName && LastName == contact.LastName)
+                {
+                    contacts.Remove(contact);
+                }
+            }
+            Display();
+        }
     }
 }

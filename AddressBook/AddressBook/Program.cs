@@ -19,10 +19,16 @@ namespace AddressBook
                         book.CreateContact();
                         break;
                     case 2:
-                        book.Display();
+                        if (book.contacts != null) { book.Display(); }
+                        else { Console.WriteLine("Add Atleast One contact"); }
                         break;
                     case 3:
-                        book.EditContact();
+                        if (book.contacts != null) { book.EditContact(); }
+                        else { Console.WriteLine("There are no contacts to edit"); }
+                        break;
+                    case 4:
+                        if (book.contacts != null) { book.EditContact(); }
+                        else { Console.WriteLine("There are no contacts to delete."); }
                         break;
                     default:
                         break;
@@ -30,7 +36,6 @@ namespace AddressBook
             }
             
 
-            Console.ReadKey();
         }
     }
 }
