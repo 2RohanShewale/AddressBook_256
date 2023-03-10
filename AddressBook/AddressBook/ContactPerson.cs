@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using static System.Console;
 
 namespace AddressBook
@@ -45,6 +46,10 @@ namespace AddressBook
                     break;
             }
 
+        }
+        public override bool Equals(object obj)
+        {
+            return this.FirstName == ((ContactPerson)obj).FirstName && this.LastName == ((ContactPerson)obj).LastName;
         }
 
     }

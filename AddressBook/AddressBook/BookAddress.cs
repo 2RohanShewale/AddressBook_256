@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using static System.Console;
+using System.Linq;
 using static AddressBook.GeneratingContacts;
+using static System.Console;
 
 namespace AddressBook
 {
@@ -11,11 +12,13 @@ namespace AddressBook
         public List<ContactPerson> contacts = new List<ContactPerson>();//multiple Contacts
         public void CreateContact()
         {
+            
             String _FirstName, _LastName, _Address, _City, _State, _PhoneNumber, _Zip, _Email;
             WriteLine("\nCreate Contact");
             Write("First Name: "); _FirstName = ReadLine();
             Write("Last Name: "); _LastName = ReadLine();
-            if (!doesExists(_FirstName, _LastName))
+            ContactPerson temp = new ContactPerson() { FirstName = _FirstName, LastName = _LastName };
+            if (contacts.FirstOrDefault(p=>p.Equals(temp)) == null)
             {
                 Write("Address: "); _Address = ReadLine();
                 Write("City: "); _City = ReadLine();
@@ -39,54 +42,76 @@ namespace AddressBook
             }
             else
             {
-                Console.WriteLine("\nContact under same name already exists");
+                Warning("Contact under same name already exists");
             }
 
         }
         public void Display()
         {
-            foreach (var contact in contacts)
-                contact.Display();
+            if (contacts.Count != 0)
+            {
+                foreach (var contact in contacts)
+                    contact.Display();
+            }
+            else
+            {
+                Console.WriteLine("This it ");
+                Warning("There are no contacts to display");
+            }
+
         }
         public void EditContact()
         {
-            WriteLine("\nEdit Contact");
-            WriteLine("Enter First Name: "); string FirstName = ReadLine();
-            WriteLine("Enter Last Name: "); string LastName = ReadLine();
-            foreach (var contact in contacts)
+            if (contacts.Count != 0)
             {
-                if (FirstName == contact.FirstName && LastName == contact.LastName)
+                WriteLine("\nEdit Contact");
+                WriteLine("Enter First Name: "); string FirstName = ReadLine();
+                WriteLine("Enter Last Name: "); string LastName = ReadLine();
+                ContactPerson contact = contacts.FirstOrDefault(x => x.FirstName == FirstName&& x.LastName== LastName);
+                if (contact != null)
                 {
                     contact.Edit();
                 }
+                else
+                {
+                    Warning(">>>There is not contact under such name");
+                }
             }
-            Display();
+            else { Warning("There are no contact to edit"); }
+
         }
         public void DeleteContact()
         {
-            WriteLine("\nDelete Contact");
-            Write("Enter First Name: "); string FirstName = ReadLine();
-            Write("Enter Last Name: "); string LastName = ReadLine();
-            foreach (var contact in contacts)
+            if (contacts.Count != 0)
             {
-                if (FirstName == contact.FirstName && LastName == contact.LastName)
+                WriteLine("\nDelete Contact");
+                Write("Enter First Name: "); string FirstName = ReadLine();
+                Write("Enter Last Name: "); string LastName = ReadLine();
+                ContactPerson contact = contacts.FirstOrDefault(x => x.FirstName == FirstName && x.LastName == LastName);
+                if (contact != null)
                 {
                     contacts.Remove(contact);
-                    break;
                 }
+                else
+                {
+                    Warning(">>>There is not contact under such name");
+                }
+                Display();
             }
-            Display();
+            else { Warning("There are no contacts to delete"); }
+            
         }
         public void GeneratingRandomContacts()
         {
             WriteLine("\nGeneration Random Contacts");
             Write("How many Contacts to generate: "); int number = Convert.ToInt32(ReadLine());
-            for(int i= 0; i < number;)
+            for (int i = 0; i < number;)
             {
                 Random random = new Random();
                 string _FirstName = firstNames[random.Next(firstNames.Length)];
                 string _LastName = lastNames[random.Next(lastNames.Length)];
-                if (!doesExists(_FirstName, _LastName))
+                
+                if ((contacts.FirstOrDefault(p=>p.FirstName== _FirstName&&p.LastName ==_LastName)) ==null)
                 {
                     string _state = GetState();
                     ContactPerson contact = new ContactPerson()
@@ -105,20 +130,12 @@ namespace AddressBook
                 }
 
             }
-        }
-        public bool doesExists(string _FirstName, string _LastName)
+        }      
+        private void Warning(String message)
         {
-            if (contacts != null)
-            {
-                foreach (var contact in contacts)
-                {
-                    if (contact.FirstName == _FirstName && contact.LastName == _LastName)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            ForegroundColor = ConsoleColor.Red;
+            WriteLine(message);
+            ResetColor();
         }
     }
 }

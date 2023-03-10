@@ -6,7 +6,7 @@ namespace AddressBook
 {
     internal class GeneratingContacts
     {
-        public static string[] firstNames = { "Karan", "Rahul", "Rohit", "Ramesh", "Raj", "Ritik", "Pratik", "Ram", "Vaibhav", "Akash", "Vijay", "Amit", "Dinesh", "Dipesh", "Rajesh", "Abhi", "" };
+        public static string[] firstNames = { "Karan", "Rahul", "Rohit", "Ramesh", "Raj", "Ritik", "Pratik", "Ram", "Vaibhav", "Akash", "Vijay", "Amit", "Dinesh", "Dipesh", "Rajesh", "Abhi", "Kartik" };
         public static string[] lastNames = { "Gupta", "Shinde", "Sharma", "Verma", "Singh", "Modi", "Shah", "Seth", "Wagh", "Patel", "Basu", "Kumar" };
         public static Dictionary<string, string[]> cityNState = new Dictionary<string, string[]>()
         {
