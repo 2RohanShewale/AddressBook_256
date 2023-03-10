@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using static System.Console;
 
@@ -13,7 +14,7 @@ namespace AddressBook
         {
             WriteLine("\nCreate address book");
             Write("Enter the name of the address Book: "); string _name = ReadLine();
-            if (!bookExists(_name))
+            if (addressBooks.FirstOrDefault(a=>a.name == _name)==null)
             {
                 BookAddress book = new BookAddress() {name = _name };
                 addressBooks.Add(book);
@@ -36,6 +37,19 @@ namespace AddressBook
         public BookAddress ChangeAddressBook(string name)
         {
             return addressBooks.Find(x => x.name == name);
+        }
+        public void DisplayByCityOrState(Predicate<ContactPerson> predicate)
+        {
+            List<ContactPerson> byCityOrState = new List<ContactPerson>();
+            foreach (var addressbook in addressBooks)
+            {
+                addressbook.contacts.ForEach(contact => { if (predicate(contact)) { byCityOrState.Add(contact); };});
+            }
+            if (byCityOrState != null)
+            {
+                byCityOrState.ForEach(contact => contact.Display());
+            }
+            
         }
         public bool bookExists(string name)
         {

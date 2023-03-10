@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace AddressBook
 {
@@ -13,7 +14,7 @@ namespace AddressBook
             while (true)
             {
                 Console.WriteLine($"\n>>>>{addressBook.name}'s book");
-                Console.WriteLine("Options: \n1.Create Contact\n2.Display Contact\n3.Edit Contact\n4.Delete Contact\n5.Crete new Address Book\n6.Change Address Book\n7.Generate Random Contacts");
+                Console.WriteLine("Options: \n1.Create Contact\n2.Display Contact\n3.Edit Contact\n4.Delete Contact\n5.Crete new Address Book\n6.Change Address Book\n7.Search By State Or City(accross all books)\n8.Generate Random Contacts");
                 Console.Write("Choice: "); int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -42,6 +43,10 @@ namespace AddressBook
                         addressBook = book.ChangeAddressBook(nameOftheBook);
                         break;
                     case 7:
+                        Console.Write("Enter the name of the city Or State: "); string cityOrState = Console.ReadLine();
+                        book.DisplayByCityOrState(contact=> contact.City == cityOrState || contact.State == cityOrState);
+                        break;
+                    case 8:
                         addressBook.GeneratingRandomContacts();
                         break;
                     default:
