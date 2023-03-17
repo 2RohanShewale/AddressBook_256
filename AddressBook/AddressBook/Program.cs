@@ -14,7 +14,7 @@ namespace AddressBook
             while (true)
             {
                 Console.WriteLine($"\n>>>>{addressBook.name}'s book");
-                Console.WriteLine("Options: \n1.Create Contact\n2.Display Contact\n3.Edit Contact\n4.Delete Contact\n5.Crete new Address Book\n6.Change Address Book\n7.Search By State Or City(accross all books)\n8.Display By State And City\n9.Disaplay Number of contact by city\n10.Generate Random Contacts");
+                Console.WriteLine("Options: \n1.Create Contact\n2.Display Contact\n3.Edit Contact\n4.Delete Contact\n5.Crete new Address Book\n6.Change Address Book\n7.Search By State Or City(accross all books)\n8.Display By State And City\n9.Disaplay Number of contact by city\n10.Sort By first name\n11.Generate Random Contacts");
                 Console.Write("Choice: "); int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -55,9 +55,11 @@ namespace AddressBook
                         book.DisplayByCityNumber(city);
                         break;
                     case 10:
+                        book.SortByFirstName();
+                        break;
+                    case 11:
                         addressBook.GeneratingRandomContacts();
                         break;
-                    
                     default:
                         break;
                 }

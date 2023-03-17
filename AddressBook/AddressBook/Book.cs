@@ -96,6 +96,23 @@ namespace AddressBook
                 Console.WriteLine();
             }
         }
+        public void SortByFirstName()
+        {
+            List<ContactPerson> contacts = GetAllContacts();
+            foreach(var contact in contacts.OrderBy(x=> x.FirstName))
+            {
+                contact.Display();
+            }
+        }
+        public List<ContactPerson> GetAllContacts()
+        {
+            List<ContactPerson> allContact = new List<ContactPerson>();
+            foreach (var addressbook in addressBooks)
+            {
+                addressbook.contacts.ForEach(x => allContact.Add(x));
+            }
+            return allContact;
+        }
         public void DisplayByCityNumber(string city)
         {
             CreateDictionaryCityAndState();
