@@ -96,6 +96,25 @@ namespace AddressBook
                 Console.WriteLine();
             }
         }
+        public void SortByCityStateOrZip()
+        {
+            List<ContactPerson> contacts = GetAllContacts();
+            WriteLine("\n1.Sort By City \n2.Sort By State.\n3.Sort By Zip\n Enter a choice: ");
+            int choice = Convert.ToInt32(ReadLine());
+            switch (choice)
+            {
+                case 1:
+                    contacts.OrderBy(x => x.City).ToList().ForEach(x=>x.Display());
+                    break;
+                case 2:
+                    contacts.OrderBy(x => x.State).ToList().ForEach(x => x.Display());
+                    break;
+                case 3:
+                    contacts.OrderBy(x => x.Zip).ToList().ForEach(x => x.Display());
+                    break;
+            }
+            Console.WriteLine();
+        }
         public void SortByFirstName()
         {
             List<ContactPerson> contacts = GetAllContacts();
