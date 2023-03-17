@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.Cryptography.X509Certificates;
 using static System.Console;
 
 namespace AddressBook
@@ -17,9 +15,9 @@ namespace AddressBook
         {
             WriteLine("\nCreate address book");
             Write("Enter the name of the address Book: "); string _name = ReadLine();
-            if (addressBooks.FirstOrDefault(a=>a.name == _name)==null)
+            if (addressBooks.FirstOrDefault(a => a.name == _name) == null)
             {
-                BookAddress book = new BookAddress() {name = _name };
+                BookAddress book = new BookAddress() { name = _name };
                 addressBooks.Add(book);
                 WriteLine("Address Book created");
             }
@@ -46,25 +44,25 @@ namespace AddressBook
             List<ContactPerson> byCityOrState = new List<ContactPerson>();
             foreach (var addressbook in addressBooks)
             {
-                addressbook.contacts.ForEach(contact => { if (predicate(contact)) { byCityOrState.Add(contact); };});
+                addressbook.contacts.ForEach(contact => { if (predicate(contact)) { byCityOrState.Add(contact); }; });
             }
             if (byCityOrState != null)
             {
                 byCityOrState.ForEach(contact => contact.Display());
             }
-            
+
         }
-        public void DisplayByCityAndState()
+        public void CreateDictionaryCityAndState()
         {
             foreach (var addressbook in addressBooks)
             {
-                foreach(ContactPerson contact in addressbook.contacts)
+                foreach (ContactPerson contact in addressbook.contacts)
                 {
                     //for City
                     if (CityDictionary.ContainsKey(contact.City))
                         CityDictionary[contact.City].Add(contact);
                     else
-                        CityDictionary.Add(contact.City, new List<ContactPerson> { contact});
+                        CityDictionary.Add(contact.City, new List<ContactPerson> { contact });
 
                     //for State
                     if (StateDictionary.ContainsKey(contact.State))
@@ -73,18 +71,21 @@ namespace AddressBook
                         StateDictionary.Add(contact.State, new List<ContactPerson> { contact });
                 }
             }
-
+        }
+        public void DisplayByCityAndState()
+        {
+            CreateDictionaryCityAndState();
             Console.WriteLine("Cities: ");
             foreach (KeyValuePair<string, List<ContactPerson>> item in CityDictionary)
             {
-                Console.WriteLine(">>"+ item.Key);
+                Console.WriteLine(">>" + item.Key);
                 foreach (var contact in item.Value)
                 {
                     Console.WriteLine("    " + contact.FirstName + " " + contact.LastName);
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("States: ");
+            WriteLine("States: ");
             foreach (KeyValuePair<string, List<ContactPerson>> item in StateDictionary)
             {
                 Console.WriteLine(">>" + item.Key);
@@ -95,6 +96,11 @@ namespace AddressBook
                 Console.WriteLine();
             }
         }
-        
+        public void DisplayByCityNumber(string city)
+        {
+            CreateDictionaryCityAndState();
+            Console.WriteLine($"City: {city} : Count {CityDictionary[city].Count}");
+        }
+
     }
 }
