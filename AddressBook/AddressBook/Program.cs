@@ -1,15 +1,69 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Xml.Serialization;
 
 namespace AddressBook
 {
     internal class Program
     {
+        public static bool DoesPreviousDataExists()
+        {
+            return Directory.GetFiles(@"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\").Length != 0;
+        }
+        public static void DeleteExistingBooks()
+        {
+            string path = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\";
+            DirectoryInfo books = new DirectoryInfo(path);
+            FileInfo[] files = books.GetFiles();
+            foreach (var file in files)
+            {
+                file.Delete();
+            }
+        }
+        public static string LoadExistingBooks(Book book)
+        {
+            string path = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\";
+            DirectoryInfo books = new DirectoryInfo(path);
+            FileInfo[] files = books.GetFiles();
+            foreach (var file in files)
+            {
+                string name = file.Name;
+                name = name.Remove(name.Length-4);
+                BookAddress addressBook = new BookAddress();
+                addressBook.name = name;
+                addressBook.ReadExistingContacts(path + file.Name);
+                book.addressBooks.Add(addressBook);
+            }
+
+                return files[0].Name.Remove(files[0].Name.Length-4);
+        }
         static void Main(string[] args)
         {
             Console.WriteLine("*________AddressBook Program_______*");
             Book book = new Book();
-            string nameOftheBook = book.CreateAddressBook();
+            string nameOftheBook;
+            if (DoesPreviousDataExists())
+            {
+                Console.WriteLine("Data Already Exists");
+                Console.WriteLine("Do you want to reload previous data?");
+                Console.Write(@"Press (Y/N) y to load \ n to delete: ");
+                string choice = Console.ReadLine();
+                if (choice == "Y" || choice == "y")
+                {
+                    nameOftheBook = LoadExistingBooks(book);
+                }
+                else
+                {
+                    DeleteExistingBooks();
+                    nameOftheBook = book.CreateAddressBook();
+                }
+            }
+            else
+                nameOftheBook = book.CreateAddressBook();
+
             BookAddress addressBook = book.ChangeAddressBook(nameOftheBook);
             while (true)
             {
@@ -66,6 +120,7 @@ namespace AddressBook
                     default:
                         break;
                 }
+                addressBook.WriteOrRewriteContacts();
             }
 
 

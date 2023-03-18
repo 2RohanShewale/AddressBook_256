@@ -15,6 +15,32 @@ namespace AddressBook
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
+        public string this[int index]
+        {
+            get 
+            {
+                if (index == 1) { return FirstName; }
+                else if (index == 2) { return LastName; }
+                else if (index == 3) { return Address; }
+                else if (index == 4) { return City;}
+                else if (index == 5) { return State;}
+                else if (index == 6) { return Zip;}
+                else if (index == 7) { return PhoneNumber;}
+                else if (index == 8) { return Email;}
+                return null;
+            }
+            set 
+            {
+                if (index == 1) { FirstName = value; }
+                else if (index == 2) { LastName = value; }
+                else if (index == 3) { Address = value; }
+                else if (index == 4) { City = value; }
+                else if (index == 5) { State = value; }
+                else if (index == 6) { Zip = value; }
+                else if (index == 7) { PhoneNumber = value; }
+                else if (index == 8) { Email = value; }
+            }
+        }
         public void Display()
         {
             ForegroundColor= ConsoleColor.Blue;

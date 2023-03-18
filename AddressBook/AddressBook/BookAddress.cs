@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using static AddressBook.GeneratingContacts;
 using static System.Console;
 
@@ -136,6 +138,61 @@ namespace AddressBook
             ForegroundColor = ConsoleColor.Red;
             WriteLine(message);
             ResetColor();
+        }
+        public void WriteOrRewriteContacts()
+        {
+            string path = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\" + name + ".txt";
+            using (StreamWriter fileWrite = File.CreateText(path))
+            {
+                foreach (var contact in contacts)
+                {
+                    fileWrite.WriteLine("=");
+                    fileWrite.WriteLine("First_Name:" + contact.FirstName);
+                    fileWrite.WriteLine("Last_Name:" + contact.LastName);
+                    fileWrite.WriteLine("Address:" + contact.Address);
+                    fileWrite.WriteLine("City:" + contact.City);
+                    fileWrite.WriteLine("State:" + contact.State);
+                    fileWrite.WriteLine("Zip:" + contact.Zip);
+                    fileWrite.WriteLine("PhoneNumber:" + contact.PhoneNumber);
+                    fileWrite.WriteLine("Email:" + contact.Email);
+                }
+            }
+
+        }
+        public void ReadExistingContacts(string path)
+        {
+            
+            using (StreamReader file = File.OpenText(path))
+            {
+ 
+                string all = file.ReadToEnd();
+                all = all.Remove(0,1);
+                string[] objects = all.Split('=');
+                foreach (var obj in objects)
+                {
+                    CreateObjectsByReadingFile(obj.Replace("\r",""));
+                }
+            }
+        }
+        public void CreateObjectsByReadingFile(string obj)
+        { 
+            string[] objectElements = obj.Split('\n');
+            ContactPerson contact = new ContactPerson();
+            int i = 1;
+            foreach (var elements in objectElements)
+            {
+                if (elements != "")
+                {
+                    string[] element = elements.Split(':');
+                    if (element[1] != "")
+                    {
+                        contact[i] = element[1];
+                        i++;
+                    }
+                    
+                }
+            }
+            contacts.Add(contact);
         }
     }
 }

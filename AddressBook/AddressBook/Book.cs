@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using static System.Console;
 
 namespace AddressBook
@@ -13,12 +14,14 @@ namespace AddressBook
 
         public string CreateAddressBook()
         {
+            string bookPath = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\";
             WriteLine("\nCreate address book");
             Write("Enter the name of the address Book: "); string _name = ReadLine();
             if (addressBooks.FirstOrDefault(a => a.name == _name) == null)
             {
                 BookAddress book = new BookAddress() { name = _name };
                 addressBooks.Add(book);
+                File.Create(bookPath + _name+ ".txt").Close();
                 WriteLine("Address Book created");
             }
             else
@@ -137,6 +140,5 @@ namespace AddressBook
             CreateDictionaryCityAndState();
             Console.WriteLine($"City: {city} : Count {CityDictionary[city].Count}");
         }
-
     }
 }
