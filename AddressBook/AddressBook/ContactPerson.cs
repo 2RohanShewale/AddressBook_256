@@ -1,9 +1,26 @@
 ﻿using System;
 using System.Web;
+using CsvHelper;
+using CsvHelper.Configuration;
+
 using static System.Console;
 
 namespace AddressBook
 {
+    public class ContactPersonMap: ClassMap<ContactPerson>
+    {
+        public ContactPersonMap() 
+        {
+            Map(m=>m.FirstName).Name("First Name");
+            Map(m => m.LastName).Name("Last Name");
+            Map(m => m.Address).Name("Address");
+            Map(m => m.City).Name("City");
+            Map(m => m.State).Name("State");
+            Map(m => m.Zip).Name("Zip Code");
+            Map(m => m.PhoneNumber).Name("Phone Number");
+            Map(m => m.Email).Name("Email");
+        }
+    }
     public class ContactPerson
     {
         public string FirstName { get; set; }

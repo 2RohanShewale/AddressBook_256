@@ -21,7 +21,7 @@ namespace AddressBook
             {
                 BookAddress book = new BookAddress() { name = _name };
                 addressBooks.Add(book);
-                File.Create(bookPath + _name+ ".txt").Close();
+                File.Create(bookPath + _name+ ".csv").Close();
                 WriteLine("Address Book created");
             }
             else

@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Configuration;
+using CsvHelper;
 using System.Runtime.Remoting.Messaging;
 using static AddressBook.GeneratingContacts;
 using static System.Console;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace AddressBook
 {
@@ -141,58 +145,30 @@ namespace AddressBook
         }
         public void WriteOrRewriteContacts()
         {
-            string path = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\" + name + ".txt";
-            using (StreamWriter fileWrite = File.CreateText(path))
+            string path = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\" + name + ".csv";
+            using (StreamWriter fileWrite = new StreamWriter(path))
             {
-                foreach (var contact in contacts)
+                using (CsvWriter csvWriter = new CsvWriter(fileWrite,CultureInfo.InvariantCulture))
                 {
-                    fileWrite.WriteLine("=");
-                    fileWrite.WriteLine("First_Name:" + contact.FirstName);
-                    fileWrite.WriteLine("Last_Name:" + contact.LastName);
-                    fileWrite.WriteLine("Address:" + contact.Address);
-                    fileWrite.WriteLine("City:" + contact.City);
-                    fileWrite.WriteLine("State:" + contact.State);
-                    fileWrite.WriteLine("Zip:" + contact.Zip);
-                    fileWrite.WriteLine("PhoneNumber:" + contact.PhoneNumber);
-                    fileWrite.WriteLine("Email:" + contact.Email);
+                    csvWriter.Context.RegisterClassMap<ContactPersonMap>();
+                    csvWriter.WriteRecords(contacts);
                 }
             }
 
         }
         public void ReadExistingContacts(string path)
         {
-            
-            using (StreamReader file = File.OpenText(path))
+
+            using (StreamReader streamReader = new StreamReader(path))
             {
- 
-                string all = file.ReadToEnd();
-                all = all.Remove(0,1);
-                string[] objects = all.Split('=');
-                foreach (var obj in objects)
+                using (CsvReader csvReader = new CsvReader(streamReader,CultureInfo.InvariantCulture))
                 {
-                    CreateObjectsByReadingFile(obj.Replace("\r",""));
+                    csvReader.Context.RegisterClassMap<ContactPersonMap>();
+                    contacts = csvReader.GetRecords<ContactPerson>().ToList();
                 }
+                
             }
         }
-        public void CreateObjectsByReadingFile(string obj)
-        { 
-            string[] objectElements = obj.Split('\n');
-            ContactPerson contact = new ContactPerson();
-            int i = 1;
-            foreach (var elements in objectElements)
-            {
-                if (elements != "")
-                {
-                    string[] element = elements.Split(':');
-                    if (element[1] != "")
-                    {
-                        contact[i] = element[1];
-                        i++;
-                    }
-                    
-                }
-            }
-            contacts.Add(contact);
-        }
+        
     }
 }

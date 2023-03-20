@@ -9,62 +9,14 @@ namespace AddressBook
 {
     internal class Program
     {
-        public static bool DoesPreviousDataExists()
-        {
-            return Directory.GetFiles(@"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\").Length != 0;
-        }
-        public static void DeleteExistingBooks()
-        {
-            string path = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\";
-            DirectoryInfo books = new DirectoryInfo(path);
-            FileInfo[] files = books.GetFiles();
-            foreach (var file in files)
-            {
-                file.Delete();
-            }
-        }
-        public static string LoadExistingBooks(Book book)
-        {
-            string path = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\";
-            DirectoryInfo books = new DirectoryInfo(path);
-            FileInfo[] files = books.GetFiles();
-            foreach (var file in files)
-            {
-                string name = file.Name;
-                name = name.Remove(name.Length-4);
-                BookAddress addressBook = new BookAddress();
-                addressBook.name = name;
-                addressBook.ReadExistingContacts(path + file.Name);
-                book.addressBooks.Add(addressBook);
-            }
-
-                return files[0].Name.Remove(files[0].Name.Length-4);
-        }
+        
         static void Main(string[] args)
         {
             Console.WriteLine("*________AddressBook Program_______*");
             Book book = new Book();
-            string nameOftheBook;
-            if (DoesPreviousDataExists())
-            {
-                Console.WriteLine("Data Already Exists");
-                Console.WriteLine("Do you want to reload previous data?");
-                Console.Write(@"Press (Y/N) y to load \ n to delete: ");
-                string choice = Console.ReadLine();
-                if (choice == "Y" || choice == "y")
-                {
-                    nameOftheBook = LoadExistingBooks(book);
-                }
-                else
-                {
-                    DeleteExistingBooks();
-                    nameOftheBook = book.CreateAddressBook();
-                }
-            }
-            else
-                nameOftheBook = book.CreateAddressBook();
+            string nameOfTheBook = GetNameOfTheAddressBook(book);
 
-            BookAddress addressBook = book.ChangeAddressBook(nameOftheBook);
+            BookAddress addressBook = book.ChangeAddressBook(nameOfTheBook);
             while (true)
             {
                 Console.WriteLine($"\n>>>>{addressBook.name}'s book");
@@ -88,13 +40,13 @@ namespace AddressBook
                         else { Console.WriteLine("There are no contacts to delete."); }
                         break;
                     case 5:
-                        nameOftheBook = book.CreateAddressBook();
-                        addressBook = book.ChangeAddressBook(nameOftheBook);
+                        nameOfTheBook = book.CreateAddressBook();
+                        addressBook = book.ChangeAddressBook(nameOfTheBook);
                         break;
                     case 6:
                         book.DisplayCreatedBook();
-                        Console.Write("Enter name of the book to open: "); nameOftheBook = Console.ReadLine();
-                        addressBook = book.ChangeAddressBook(nameOftheBook);
+                        Console.Write("Enter name of the book to open: "); nameOfTheBook = Console.ReadLine();
+                        addressBook = book.ChangeAddressBook(nameOfTheBook);
                         break;
                     case 7:
                         Console.Write("Enter the name of the city Or State: "); string cityOrState = Console.ReadLine();
@@ -124,6 +76,59 @@ namespace AddressBook
             }
 
 
+        }
+        public static string GetNameOfTheAddressBook(Book book)
+        {
+            string nameOftheBook;
+            if (DoesPreviousDataExists())
+            {
+                Console.WriteLine("Data Already Exists");
+                Console.WriteLine("Do you want to reload previous data?");
+                Console.Write(@"Press (Y/N) y to load \ n to delete: ");
+                string choice = Console.ReadLine();
+                if (choice == "Y" || choice == "y")
+                {
+                    return LoadExistingBooks(book);
+                }
+                else
+                {
+                    DeleteExistingBooks();
+                    return book.CreateAddressBook();
+                }
+            }
+            else
+                return book.CreateAddressBook();
+        }
+        public static bool DoesPreviousDataExists()
+        {
+            return Directory.GetFiles(@"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\").Length != 0;
+        }
+        public static void DeleteExistingBooks()
+        {
+            string path = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\";
+            DirectoryInfo books = new DirectoryInfo(path);
+            FileInfo[] files = books.GetFiles();
+            foreach (var file in files)
+            {
+                file.Delete();
+            }
+        }
+        public static string LoadExistingBooks(Book book)
+        {
+            string path = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\";
+            DirectoryInfo books = new DirectoryInfo(path);
+            FileInfo[] files = books.GetFiles();
+            foreach (var file in files)
+            {
+                string name = file.Name;
+                name = name.Remove(name.Length - 4);
+                BookAddress addressBook = new BookAddress();
+                addressBook.name = name;
+                addressBook.ReadExistingContacts(path + file.Name);
+                book.addressBooks.Add(addressBook);
+            }
+
+            return files[0].Name.Remove(files[0].Name.Length - 4);
         }
     }
 }
