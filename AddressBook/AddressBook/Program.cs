@@ -73,6 +73,7 @@ namespace AddressBook
                         break;
                 }
                 addressBook.WriteOrRewriteContacts();
+                book.WriteToJsonFile();
             }
 
 

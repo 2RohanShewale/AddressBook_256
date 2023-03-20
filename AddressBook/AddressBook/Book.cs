@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using Newtonsoft.Json;
 using static System.Console;
 
 namespace AddressBook
 {
-    internal class Book
+    public class Book
     {
         public List<BookAddress> addressBooks = new List<BookAddress>();
         public Dictionary<string, List<ContactPerson>> CityDictionary = new Dictionary<string, List<ContactPerson>>();
@@ -139,6 +140,19 @@ namespace AddressBook
         {
             CreateDictionaryCityAndState();
             Console.WriteLine($"City: {city} : Count {CityDictionary[city].Count}");
+        }
+        public void WriteToJsonFile()
+        {
+            string filePath = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\JSON\book.json";
+            JsonSerializer jsonSerializer= new JsonSerializer();
+            using (StreamWriter streamWriter = new StreamWriter(filePath))
+            {
+                using (JsonWriter jsonWriter = new JsonTextWriter(streamWriter))
+                {
+                    jsonSerializer.Serialize(jsonWriter, Formatting.Indented);
+                    jsonSerializer.Serialize(jsonWriter, this);
+                }
+            }
         }
     }
 }

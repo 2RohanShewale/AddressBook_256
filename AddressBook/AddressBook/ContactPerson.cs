@@ -21,6 +21,7 @@ namespace AddressBook
             Map(m => m.Email).Name("Email");
         }
     }
+    [Serializable]
     public class ContactPerson
     {
         public string FirstName { get; set; }

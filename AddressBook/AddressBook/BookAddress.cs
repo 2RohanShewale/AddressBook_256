@@ -12,7 +12,7 @@ using System.Globalization;
 
 namespace AddressBook
 {
-    internal class BookAddress
+    public class BookAddress
     {
         public string name;
         public List<ContactPerson> contacts = new List<ContactPerson>();//multiple Contacts
@@ -143,7 +143,7 @@ namespace AddressBook
             WriteLine(message);
             ResetColor();
         }
-        public void WriteOrRewriteContacts()
+        public void WriteOrRewriteContacts()//CSV
         {
             string path = @"C:\Users\shewa\RFP-256\AddressBook_256\AddressBook\AddressBook\Books\" + name + ".csv";
             using (StreamWriter fileWrite = new StreamWriter(path))
@@ -156,7 +156,7 @@ namespace AddressBook
             }
 
         }
-        public void ReadExistingContacts(string path)
+        public void ReadExistingContacts(string path)//CSV
         {
 
             using (StreamReader streamReader = new StreamReader(path))
@@ -164,7 +164,12 @@ namespace AddressBook
                 using (CsvReader csvReader = new CsvReader(streamReader,CultureInfo.InvariantCulture))
                 {
                     csvReader.Context.RegisterClassMap<ContactPersonMap>();
-                    contacts = csvReader.GetRecords<ContactPerson>().ToList();
+                    var contact = csvReader.GetRecords<ContactPerson>();
+                    contact = contact.ToList();
+                    foreach (var item in contact)
+                    {
+                        contacts.Add(item);
+                    }
                 }
                 
             }
